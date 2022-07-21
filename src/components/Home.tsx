@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../modules';
+import { addTodoList } from '../modules/todoList';
 
 const Home: React.FC = () => {
   const [value, setValue] = useState('');
-  const [todoList, setTodoList] = useState<string[] | never[]>([]);
+
+  const todoList = useSelector((state: RootState) => state.todoList);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -17,29 +23,18 @@ const Home: React.FC = () => {
       />
       <button
         onClick={() => {
-          setTodoList((prev) => [...prev, value]);
+          dispatch(addTodoList(value));
           setValue('');
         }}
       >
         Add
       </button>
       <ul>
-        {todoList.map((item, idx) => {
+        {todoList?.map((todoList, idx) => {
           return (
             <div style={{ display: 'flex' }}>
-              <li key={idx}>{item}</li>
-              <button
-                onClick={() => {
-                  setTodoList((prev) => {
-                    const newList = [...prev];
-                    newList.splice(idx, 1);
-                    return newList;
-                  });
-                  console.log(idx);
-                }}
-              >
-                Delete
-              </button>
+              <li key={idx}>{todoList.item}</li>
+              <button onClick={() => {}}>Delete</button>
               <button>Edit</button>
             </div>
           );
