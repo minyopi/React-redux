@@ -1,38 +1,47 @@
+// 액션 타입 선언
 const ADD = 'todoList/ADD' as const;
 const DELETE = 'todoList/DELETE' as const;
 const EDIT = 'todoList/EDIT' as const;
 
+let nextId = 1;
+
+// 액션 생성 함수
 type TodoListAction =
   | ReturnType<typeof addTodoList>
   | ReturnType<typeof deleteTodoList>
   | ReturnType<typeof editTodoList>;
 
-type TodoListState = {
-  todoList: string[] | never[];
+// 상태에서 사용 할 할 일 항목 데이터 타입 정의
+export type TodoList = {
+  id: number;
+  item: string;
+  done: boolean;
 };
 
-export const addTodoList = (list: string) => ({
+// 액션 생성 함수
+export const addTodoList = (item: string) => ({
   type: ADD,
-  payload: list,
+  payload: {
+    id: nextId++,
+    item,
+  },
 });
 
-export const deleteTodoList = (idx: number) => ({
+export const deleteTodoList = (id: number) => ({
   type: DELETE,
-  payload: idx,
+  payload: id,
 });
 
-export const editTodoList = () => ({
+export const editTodoList = (id: number) => ({
   type: EDIT,
+  payload: id,
 });
 
-const initialState: TodoListState = {
-  todoList: [],
-};
+// 이 모듈에서 관리할 상태는 TodoList 객체로 이루어진 배열
+export type TodoListState = TodoList[];
 
-const handleDeleteTodoList = (todoList: string[] | never[], idx: number) => {
-  todoList.splice(idx, 1);
-  return todoList;
-};
+// 초기값
+const initialState: TodoListState = [];
 
 // Reducer
 const todoList = (
@@ -41,11 +50,15 @@ const todoList = (
 ) => {
   switch (action.type) {
     case ADD:
-      return [...state.todoList, action.payload];
+      return state.concat({
+        id: action.payload.id,
+        item: action.payload.item,
+        done: false,
+      });
     case DELETE:
-      return handleDeleteTodoList(state.todoList, action.payload);
+      return;
     default:
-      return state.todoList;
+      return;
   }
 };
 
