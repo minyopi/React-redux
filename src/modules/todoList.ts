@@ -58,7 +58,7 @@ const todoList = (
     case DELETE:
       return;
     default:
-      return;
+      return state;
   }
 };
 
