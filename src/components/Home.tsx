@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { addTodoList } from '../modules/todoList';
 
@@ -32,8 +31,8 @@ const Home: React.FC = () => {
       <ul>
         {todoList?.map((todoList, idx) => {
           return (
-            <div style={{ display: 'flex' }}>
-              <li key={idx}>{todoList.item}</li>
+            <div key={idx} style={{ display: 'flex' }}>
+              <li> {todoList.item}</li>
               <button onClick={() => {}}>Delete</button>
               <button>Edit</button>
             </div>
