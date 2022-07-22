@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { addTodoList } from '../modules/todoList';
+import { addTodoList, deleteTodoList } from '../modules/todoList';
 
 const Home: React.FC = () => {
   const [value, setValue] = useState('');
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       <input
         type="text"
         value={value}
-        onChange={(e) => {
+        onChange={e => {
           setValue(e.target.value);
         }}
       />
@@ -32,8 +32,14 @@ const Home: React.FC = () => {
         {todoList?.map((todoList, idx) => {
           return (
             <div key={idx} style={{ display: 'flex' }}>
-              <li> {todoList.item}</li>
-              <button onClick={() => {}}>Delete</button>
+              <li>{todoList.item}</li>
+              <button
+                onClick={() => {
+                  dispatch(deleteTodoList(todoList.id));
+                }}
+              >
+                Delete
+              </button>
               <button>Edit</button>
             </div>
           );

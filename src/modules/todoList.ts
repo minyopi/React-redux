@@ -29,12 +29,12 @@ export const addTodoList = (item: string) => ({
 
 export const deleteTodoList = (id: number) => ({
   type: DELETE,
-  payload: id,
+  payload: { id },
 });
 
 export const editTodoList = (id: number) => ({
   type: EDIT,
-  payload: id,
+  payload: { id },
 });
 
 // 이 모듈에서 관리할 상태는 TodoList 객체로 이루어진 배열
@@ -56,7 +56,7 @@ const todoList = (
         done: false,
       });
     case DELETE:
-      return;
+      return state.filter(item => item.id !== action.payload.id);
     default:
       return state;
   }
