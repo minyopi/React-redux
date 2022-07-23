@@ -32,9 +32,9 @@ export const deleteTodoList = (id: number) => ({
   payload: { id },
 });
 
-export const editTodoList = (id: number) => ({
+export const editTodoList = (item: string, id: number) => ({
   type: EDIT,
-  payload: { id },
+  payload: { id, item },
 });
 
 // 이 모듈에서 관리할 상태는 TodoList 객체로 이루어진 배열
@@ -56,7 +56,15 @@ const todoList = (
         done: false,
       });
     case DELETE:
-      return state.filter(item => item.id !== action.payload.id);
+      return state.filter(todoList => todoList.id !== action.payload.id);
+    case EDIT:
+      return state.map(todoList => {
+        if (todoList.id === action.payload.id) {
+          return { ...todoList, item: action.payload.item };
+        }
+
+        return todoList;
+      });
     default:
       return state;
   }
