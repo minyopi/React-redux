@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { addTodoList, deleteTodoList } from '../modules/todoList';
+import { addTodoList, deleteTodoList, editTodoList } from '../modules/todoList';
 
 const Home: React.FC = () => {
   const [value, setValue] = useState('');
+  const [editValue, setEditValue] = useState('');
+  const [nowClick, setNowClick] = useState(0);
+  const [showInput, setShowInput] = useState(false);
 
   const todoList = useSelector((state: RootState) => state.todoList);
   const dispatch = useDispatch();
@@ -31,16 +34,45 @@ const Home: React.FC = () => {
       <ul>
         {todoList?.map((todoList, idx) => {
           return (
-            <div key={idx} style={{ display: 'flex' }}>
-              <li>{todoList.item}</li>
-              <button
-                onClick={() => {
-                  dispatch(deleteTodoList(todoList.id));
-                }}
-              >
-                Delete
-              </button>
-              <button>Edit</button>
+            <div key={todoList.id} style={{ display: 'flex' }}>
+              {showInput && idx === nowClick ? (
+                <>
+                  <input
+                    value={editValue}
+                    onChange={e => {
+                      setEditValue(e.target.value);
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      setShowInput(false);
+                      dispatch(editTodoList(editValue, todoList.id));
+                    }}
+                  >
+                    confirm
+                  </button>
+                </>
+              ) : (
+                <>
+                  <li>{todoList.item}</li>
+                  <button
+                    onClick={() => {
+                      setShowInput(true);
+                      setEditValue(todoList.item);
+                      setNowClick(idx);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      dispatch(deleteTodoList(todoList.id));
+                    }}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
             </div>
           );
         })}
