@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../modules';
-import { addTodoList, deleteTodoList, editTodoList } from '../modules/todoList';
+import {
+  addTodoList,
+  deleteTodoList,
+  editTodoList,
+} from '../../modules/todoList';
+import { RootState } from '../../modules';
 
-const Home: React.FC = () => {
+const TodoList: React.FC = () => {
   const [value, setValue] = useState('');
   const [editValue, setEditValue] = useState('');
   const [nowClick, setNowClick] = useState(0);
@@ -14,8 +18,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h1>Practice react redux with typescript</h1>
-      <h2>To Do List</h2>
       <input
         type="text"
         value={value}
@@ -81,4 +83,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default TodoList;
