@@ -4,8 +4,8 @@ import {
   addTodoList,
   deleteTodoList,
   editTodoList,
-} from '../../modules/todoList';
-import { RootState } from '../../modules';
+} from '../../actions/todoListActions';
+import { RootState } from '../../store';
 
 const TodoList: React.FC = () => {
   const [value, setValue] = useState('');
