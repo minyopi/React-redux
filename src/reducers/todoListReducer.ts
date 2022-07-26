@@ -1,9 +1,9 @@
 import {
-  ADD,
-  DELETE,
-  EDIT,
+  addTodo,
+  deleteTodo,
   TodoList,
   TodoListAction,
+  editTodo,
 } from './../actions/todoListActions';
 
 // 이 모듈에서 관리할 상태는 TodoList 객체로 이루어진 배열
@@ -18,15 +18,14 @@ const todoList = (
   action: TodoListAction,
 ) => {
   switch (action.type) {
-    case ADD:
+    case addTodo.type:
       return state.concat({
         id: action.payload.id,
         item: action.payload.item,
-        done: false,
       });
-    case DELETE:
+    case deleteTodo.type:
       return state.filter(todoList => todoList.id !== action.payload.id);
-    case EDIT:
+    case editTodo.type:
       return state.map(todoList => {
         if (todoList.id === action.payload.id) {
           return { ...todoList, item: action.payload.item };

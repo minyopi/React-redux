@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addTodoList,
-  deleteTodoList,
-  editTodoList,
-} from '../../actions/todoListActions';
+import { addTodo, deleteTodo, editTodo } from '../../actions/todoListActions';
 import { RootState } from '../../store';
 
 const TodoList: React.FC = () => {
@@ -12,6 +8,8 @@ const TodoList: React.FC = () => {
   const [editValue, setEditValue] = useState('');
   const [nowClick, setNowClick] = useState(0);
   const [showInput, setShowInput] = useState(false);
+
+  let nextId = 1;
 
   const todoList = useSelector((state: RootState) => state.todoList);
   const dispatch = useDispatch();
@@ -29,7 +27,7 @@ const TodoList: React.FC = () => {
       />
       <button
         onClick={() => {
-          dispatch(addTodoList(value));
+          dispatch(addTodo({ id: nextId++, item: value }));
           setValue('');
         }}
       >
@@ -50,7 +48,7 @@ const TodoList: React.FC = () => {
                   <button
                     onClick={() => {
                       setShowInput(false);
-                      dispatch(editTodoList(editValue, todoList.id));
+                      dispatch(editTodo({ id: todoList.id, item: editValue }));
                     }}
                   >
                     confirm
@@ -70,7 +68,9 @@ const TodoList: React.FC = () => {
                   </button>
                   <button
                     onClick={() => {
-                      dispatch(deleteTodoList(todoList.id));
+                      dispatch(
+                        deleteTodo({ id: todoList.id, item: todoList.item }),
+                      );
                     }}
                   >
                     Delete
