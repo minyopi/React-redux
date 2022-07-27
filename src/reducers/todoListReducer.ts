@@ -1,3 +1,4 @@
+import { createReducer } from '@reduxjs/toolkit';
 import {
   addTodo,
   deleteTodo,
@@ -10,22 +11,23 @@ import {
 export type TodoListState = TodoList[];
 
 // 초기값
-const initialState: TodoListState = [];
+const initialState: TodoListState = [] as TodoListState;
 
 // Reducer
-const todoList = (
-  state: TodoListState = initialState,
-  action: TodoListAction,
-) => {
-  switch (action.type) {
-    case addTodo.type:
-      return state.concat({
+const todoListReducer = createReducer(initialState, builder => {
+  builder
+    .addCase(addTodo, (state, action) => {
+      // TODO: mutate 찾아보기
+      // return 에 아무것도 반환하지 않아도 mutate 때문에 괜찮다.
+      state.push({
         id: action.payload.id,
         item: action.payload.item,
       });
-    case deleteTodo.type:
+    })
+    .addCase(deleteTodo, (state, action) => {
       return state.filter(todoList => todoList.id !== action.payload.id);
-    case editTodo.type:
+    })
+    .addCase(editTodo, (state, action) => {
       return state.map(todoList => {
         if (todoList.id === action.payload.id) {
           return { ...todoList, item: action.payload.item };
@@ -33,9 +35,7 @@ const todoList = (
 
         return todoList;
       });
-    default:
-      return state;
-  }
-};
+    });
+});
 
-export default todoList;
+export default todoListReducer;

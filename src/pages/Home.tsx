@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, deleteTodo, editTodo } from '../actions/todoListActions';
 import { RootState } from '../store';
 
+let NEXTID = 1;
+
 const Home: React.FC = () => {
   const renderTodoList = () => {
     const [value, setValue] = useState('');
     const [editValue, setEditValue] = useState('');
     const [nowClick, setNowClick] = useState(0);
     const [showInput, setShowInput] = useState(false);
-
-    let nextId = 1;
 
     const todoList = useSelector((state: RootState) => state.todoList);
     const dispatch = useDispatch();
@@ -28,8 +28,9 @@ const Home: React.FC = () => {
         />
         <button
           onClick={() => {
-            dispatch(addTodo({ id: nextId++, item: value }));
+            dispatch(addTodo({ id: NEXTID, item: value }));
             setValue('');
+            NEXTID++;
           }}
         >
           Add
