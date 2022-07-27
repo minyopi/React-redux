@@ -3,7 +3,6 @@ import {
   addTodo,
   deleteTodo,
   TodoList,
-  TodoListAction,
   editTodo,
 } from './../actions/todoListActions';
 
@@ -14,28 +13,27 @@ export type TodoListState = TodoList[];
 const initialState: TodoListState = [] as TodoListState;
 
 // Reducer
-const todoListReducer = createReducer(initialState, builder => {
-  builder
-    .addCase(addTodo, (state, action) => {
-      // TODO: mutate 찾아보기
-      // return 에 아무것도 반환하지 않아도 mutate 때문에 괜찮다.
-      state.push({
-        id: action.payload.id,
-        item: action.payload.item,
-      });
-    })
-    .addCase(deleteTodo, (state, action) => {
-      return state.filter(todoList => todoList.id !== action.payload.id);
-    })
-    .addCase(editTodo, (state, action) => {
-      return state.map(todoList => {
-        if (todoList.id === action.payload.id) {
-          return { ...todoList, item: action.payload.item };
-        }
-
-        return todoList;
-      });
+const todoListReducer = createReducer(initialState, {
+  [addTodo.type]: (state, action) => {
+    // TODO: mutate 찾아보기
+    // return 에 아무것도 반환하지 않아도 mutate 때문에 괜찮다.
+    state.push({
+      id: action.payload.id,
+      item: action.payload.item,
     });
+  },
+  [deleteTodo.type]: (state, action) => {
+    return state.filter(todoList => todoList.id !== action.payload.id);
+  },
+  [editTodo.type]: (state, action) => {
+    return state.map(todoList => {
+      if (todoList.id === action.payload.id) {
+        return { ...todoList, item: action.payload.item };
+      }
+
+      return todoList;
+    });
+  },
 });
 
 export default todoListReducer;
