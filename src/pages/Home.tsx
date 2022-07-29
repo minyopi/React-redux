@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, deleteTodo, editTodo } from '../actions/todoListActions';
+import { addTodo, deleteTodo, editTodo } from '../reducers/todoListReducer';
 import { RootState } from '../store';
 
 let NEXTID = 1;
@@ -12,7 +12,7 @@ const Home: React.FC = () => {
     const [nowClick, setNowClick] = useState(0);
     const [showInput, setShowInput] = useState(false);
 
-    const todoList = useSelector((state: RootState) => state.todoList);
+    const todoList = useSelector((state: RootState) => state.toDo);
     const dispatch = useDispatch();
 
     return (

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import todoList from './reducers/todoListReducer';
+import toDo from './reducers/todoListReducer';
 
 const rootReducer = combineReducers({
-  todoList,
+  toDo,
 });
 
 // root reducer
